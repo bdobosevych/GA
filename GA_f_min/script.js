@@ -1,4 +1,3 @@
-
 var chrt;
 var chrt2;
 
@@ -20,7 +19,7 @@ const xs = [
 
 const m = xs.map(y => Math.round(Math.log2((y[1] - y[0]) / h)));
 const n = m.reduce((prev, current) => prev + current, 0);
-const f = (x1, x2) => Math.abs(Math.sin(Math.abs(x1)) + Math.abs(x2)-1) + Math.abs(Math.pow(x1,2)+Math.pow(x2,2)-1)
+const f = (x1, x2) => Math.abs(Math.sin(Math.abs(x1)) + Math.abs(x2) - 1) + Math.abs(Math.pow(x1, 2) + Math.pow(x2, 2) - 1)
 
 function GetStartPopulation(minLT, maxLT) {
     const n = m.reduce((first, second) => first + second, 0);
@@ -31,16 +30,16 @@ function GetStartPopulation(minLT, maxLT) {
     const evalPrimeMin = Math.min(...evalPrime);
     const evalPrime2 = evalPrime.map(el => el - evalPrimeMin + 1);
     const avgEvalT = evalPrime2.reduce((a, b) => a + b, 0) / evalPrime2.length;
-    const eta = (maxLT - minLT)/2;
+    const eta = (maxLT - minLT) / 2;
     const lifeDuration = [];
     for (let i = 0; i < N; ++i) {
-        lifeDuration.push(Math.min(minLT+eta*((evalPrime2[i])/(avgEvalT)),maxLT));
+        lifeDuration.push(Math.min(minLT + eta * ((evalPrime2[i]) / (avgEvalT)), maxLT));
     }
 
     return [population, Array(N).fill(1), lifeDuration];
 }
 
-const fromBits = currentIndyvid => Array.from({ length: xs.length },
+const fromBits = currentIndyvid => Array.from({length: xs.length},
     (xi, index) =>
         xs[index][0] + Array.apply(null, Array(m[index])).reduce((prev, current, currentIndex) => {
             const sumInMBefore = m.reduce((pr, curr, currIdx) => {
@@ -58,8 +57,8 @@ const fromBits = currentIndyvid => Array.from({ length: xs.length },
 const fitness = currentIndyvid => f(...fromBits(currentIndyvid));
 
 function MakeTournir(population, populationAge) {
-   const tournamentItems = Array.from({length: Nt}, _ => {
-    return Math.round(Math.random() * (population.length - 1));
+    const tournamentItems = Array.from({length: Nt}, _ => {
+        return Math.round(Math.random() * (population.length - 1));
     });
     const tempEls = [];
     const tempElsAge = [];
@@ -82,14 +81,14 @@ function MakeTournir(population, populationAge) {
 
 function MakeCrossover([item1, item2], [item1Age, item2Age]) {
     if (Math.random() < pc) {
-        let r1 = Math.round(Math.random()*(n-1));
-        let r2 = Math.round(Math.random()*(n-1));
+        let r1 = Math.round(Math.random() * (n - 1));
+        let r2 = Math.round(Math.random() * (n - 1));
         if (r2 < r1) {
             [r1, r2] = [r2, r1];
         }
         return [[
-            [...item1.slice(0, r1), ...item2.slice(r1,r2), ...item1.slice(r2)],
-            [...item2.slice(0, r1), ...item1.slice(r1,r2), ...item2.slice(r2)]
+            [...item1.slice(0, r1), ...item2.slice(r1, r2), ...item1.slice(r2)],
+            [...item2.slice(0, r1), ...item1.slice(r1, r2), ...item2.slice(r2)]
         ], [1, 1]];
     }
     return [[item1, item2], [item1Age, item2Age]];
@@ -147,9 +146,9 @@ function newPopulation(population, populationAge, populationLifeDuration, minLT,
     const evalPrimeMin = Math.min(...evalPrime);
     const evalPrime2 = evalPrime.map(el => el - evalPrimeMin + 1);
     const avgEvalT = evalPrime2.reduce((a, b) => a + b, 0) / evalPrime2.length;
-    const eta = (maxLT - minLT)/2;
+    const eta = (maxLT - minLT) / 2;
     for (let i = newPopulation.length - newN; i < newPopulation.length; ++i) {
-        newPopultionLifeDuration.push(Math.min(minLT+eta*((evalPrime2[i])/(avgEvalT)),maxLT));
+        newPopultionLifeDuration.push(Math.min(minLT + eta * ((evalPrime2[i]) / (avgEvalT)), maxLT));
     }
 
     return [newPopulation, newPopulationAge, newPopultionLifeDuration];
@@ -167,7 +166,7 @@ function main() {
     let iterations = [];
     let maxLTs = [];
     let bests = [];
-    for (let maxLT = 10; maxLT <= 20; maxLT+=2) {
+    for (let maxLT = 10; maxLT <= 20; maxLT += 2) {
         let [population, populationAge, lifeDuration] = GetStartPopulation(1, maxLT);
         console.log('population', 'maxLT', maxLT, population, populationAge);
 
@@ -187,7 +186,7 @@ function main() {
         iterations.push(iteration);
         maxLTs.push(maxLT);
 
-        const resInBits = populationsBest.reduce((p, v) =>fitness(p) < fitness(v) ? p : v);
+        const resInBits = populationsBest.reduce((p, v) => fitness(p) < fitness(v) ? p : v);
         const res = fromBits(resInBits);
         bests.push(f(...res));
         let resNumOfPopulation;
@@ -222,7 +221,7 @@ function main() {
     let iterations2 = [];
     let minLTs = [];
     let bests2 = [];
-    for (let minLT = 1; minLT <= 7; minLT+=1) {
+    for (let minLT = 1; minLT <= 7; minLT += 1) {
         let [population, populationAge, lifeDuration] = GetStartPopulation(minLT, 15);
         console.log('population', 'minLT', minLT, population, populationAge);
 
@@ -242,7 +241,7 @@ function main() {
         iterations2.push(iteration);
         minLTs.push(minLT);
 
-        const resInBits = populationsBest.reduce((p, v) =>fitness(p) < fitness(v) ? p : v);
+        const resInBits = populationsBest.reduce((p, v) => fitness(p) < fitness(v) ? p : v);
         const res = fromBits(resInBits);
         bests2.push(f(...res));
         let resNumOfPopulation;
