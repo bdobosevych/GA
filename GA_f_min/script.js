@@ -179,7 +179,7 @@ function main() {
         let iteration = 0;
 
         while (iteration++ <= maxt && CheckImpove(populationsBest)) {
-            console.log('Iteration', iteration);
+            // console.log('Iteration', iteration);
             [population, populationAge, lifeDuration] = newPopulation(population, populationAge, lifeDuration, 1, maxLT);
             let populationEval = population.reduce((p, v) => fitness(p) < fitness(v) ? p : v);
             populationsBest.push(populationEval);
@@ -217,7 +217,7 @@ function main() {
             options: {}
         }
     );
-
+    console.log('---------------------------------------------------------------------------------------------------');
 
     let iterations2 = [];
     let minLTs = [];
@@ -234,7 +234,7 @@ function main() {
         let iteration = 0;
 
         while (iteration++ <= maxt && CheckImpove(populationsBest)) {
-            console.log('Iteration', iteration);
+            // console.log('Iteration', iteration);
             [population, populationAge, lifeDuration] = newPopulation(population, populationAge, lifeDuration, minLT, 15);
             let populationEval = population.reduce((p, v) => fitness(p) < fitness(v) ? p : v);
             populationsBest.push(populationEval);
